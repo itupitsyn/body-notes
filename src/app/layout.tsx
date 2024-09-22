@@ -18,7 +18,7 @@ export default function RootLayout({
       <head>
         <ThemeModeScript />
       </head>
-      <body className="flex min-h-svh flex-col items-center justify-between">
+      <body>
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>

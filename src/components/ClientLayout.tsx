@@ -2,13 +2,18 @@
 
 import { SessionProvider } from "next-auth/react";
 import { FC, PropsWithChildren } from "react";
-import { Navagation } from "./Navigation";
+import { Navigation } from "./Navigation";
+import { ToastProvider } from "@/contexts/Toaster";
 
 export const ClientLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <SessionProvider>
-      {children}
-      <Navagation />
+      <ToastProvider>
+        <div className="container flex min-h-svh flex-col justify-between">
+          {children}
+          <Navigation />
+        </div>
+      </ToastProvider>
     </SessionProvider>
   );
 };
