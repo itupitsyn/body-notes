@@ -17,3 +17,13 @@ export const PATCH = async (req: NextRequest, { params }: RouteParams) => {
 
   return new NextResponse(JSON.stringify(updated));
 };
+
+export const DELETE = async (req: NextRequest, { params }: RouteParams) => {
+  const [data, session] = await Promise.all([prisma.affirmation.findFirst({ where: { id: params.id } }), auth()]);
+
+  if (!data || data.userId !== session?.user.id) return new NextResponse("", { status: 404 });
+
+  await prisma.affirmation.delete({ where: { id: params.id } });
+
+  return new NextResponse();
+};

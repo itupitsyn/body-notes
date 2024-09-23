@@ -1,15 +1,5 @@
 import { Toast } from "flowbite-react";
-import {
-  createContext,
-  Dispatch,
-  FC,
-  PropsWithChildren,
-  ReactNode,
-  SetStateAction,
-  useCallback,
-  useContext,
-  useState,
-} from "react";
+import { createContext, FC, PropsWithChildren, ReactNode, useCallback, useContext, useState } from "react";
 import { HiCheck, HiExclamation, HiX } from "react-icons/hi";
 
 export type ToastContextType = {
@@ -34,10 +24,10 @@ type ToastDescription = { id: string; state: ToastState; content: ReactNode };
 
 interface ToasterProps {
   toasts: ToastDescription[];
-  setToasts: Dispatch<SetStateAction<ToastDescription[]>>;
+  removeToast: (id: string) => void;
 }
 
-const Toaster: FC<ToasterProps> = ({ toasts, setToasts }) => (
+const Toaster: FC<ToasterProps> = ({ toasts, removeToast }) => (
   <div className={"fixed bottom-10 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2"}>
     {toasts.map((item) => (
       <Toast key={item.id}>
@@ -57,7 +47,7 @@ const Toaster: FC<ToasterProps> = ({ toasts, setToasts }) => (
           </div>
         )}
         <div className="mx-2">{item.content}</div>
-        <Toast.Toggle onClick={() => setToasts((prev) => prev.filter((currentToast) => currentToast.id !== item.id))} />
+        <Toast.Toggle onClick={() => removeToast(item.id)} />
       </Toast>
     ))}
   </div>
@@ -66,14 +56,26 @@ const Toaster: FC<ToasterProps> = ({ toasts, setToasts }) => (
 export const ToastProvider: FC<PropsWithChildren> = ({ children }) => {
   const [toasts, setToasts] = useState<ToastDescription[]>([]);
 
-  const addToast = useCallback((content: ReactNode, state: ToastState) => {
-    setToasts((prev) => [{ id: Math.random().toString(32).replace(".", ""), content, state }, ...prev]);
+  const removeToast = useCallback((id: string) => {
+    setToasts((prev) => prev.filter((currentToast) => currentToast.id !== id));
   }, []);
+
+  const addToast = useCallback(
+    (content: ReactNode, state: ToastState) => {
+      const id = Math.random().toString(32).replace(".", "");
+      setToasts((prev) => [{ id, content, state }, ...prev]);
+
+      setTimeout(() => {
+        removeToast(id);
+      }, 3000);
+    },
+    [removeToast],
+  );
 
   return (
     <ToastContext.Provider value={{ addToast }}>
       {children}
-      <Toaster toasts={toasts} setToasts={setToasts} />
+      <Toaster toasts={toasts} removeToast={removeToast} />
     </ToastContext.Provider>
   );
 };

@@ -8,7 +8,10 @@ export const getAffirmations = async () => {
   const userId = session?.user.id;
   if (!userId) throw new Error(ERROR_UNAUTHORIZED);
 
-  const result = await prisma.affirmation.findMany({ where: { userId } });
+  const result = await prisma.affirmation.findMany({
+    where: { userId },
+    orderBy: { id: "asc" },
+  });
 
   return result;
 };

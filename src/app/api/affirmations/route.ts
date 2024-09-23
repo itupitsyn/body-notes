@@ -8,10 +8,11 @@ export const POST = async (req: NextRequest) => {
 
   const body = await req.json();
 
-  const data = prisma.affirmation.create({
+  const data = await prisma.affirmation.create({
     data: {
       text: body.text,
       userId: session.user.id,
+      visible: true,
     },
   });
 
