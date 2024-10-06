@@ -1,15 +1,15 @@
 "use client";
 
 import cn from "classnames";
-import { Button } from "flowbite-react";
+import { Button, DarkThemeToggle } from "flowbite-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { FC } from "react";
 
 export const Navigation: FC = () => {
   const { push } = useRouter();
-
+  const path = usePathname();
   const { status, data } = useSession();
 
   return (
@@ -34,25 +34,33 @@ export const Navigation: FC = () => {
             <div className="font-medium">{data.user?.name}</div>
           </div>
           <Button.Group>
-            <Button gradientDuoTone="redToYellow" outline onClick={() => push("/feelings")}>
+            <Button gradientDuoTone="redToYellow" outline={path !== "/feelings"} onClick={() => push("/feelings")}>
               Чувства
             </Button>
-            <Button gradientDuoTone="redToYellow" outline onClick={() => push("/thoughts")}>
+            <Button gradientDuoTone="redToYellow" outline={path !== "/thoughts"} onClick={() => push("/thoughts")}>
               Мысли
             </Button>
-            <Button gradientDuoTone="redToYellow" outline onClick={() => push("/affirmations")}>
+            <Button
+              gradientDuoTone="redToYellow"
+              outline={path !== "/affirmations"}
+              onClick={() => push("/affirmations")}
+            >
               Внушения
             </Button>
-            <Button gradientDuoTone="redToYellow" outline onClick={() => push("/home-tasks")}>
+            <Button gradientDuoTone="redToYellow" outline={path !== "/home-tasks"} onClick={() => push("/home-tasks")}>
               Домашка
             </Button>
           </Button.Group>
         </>
       )}
+
       {status === "unauthenticated" && (
-        <Button gradientDuoTone="redToYellow" outline>
-          Войти
-        </Button>
+        <div className="flex items-center gap-4">
+          <DarkThemeToggle />
+          <Button gradientDuoTone="redToYellow" outline onClick={() => push("/api/auth/signin")}>
+            Войти
+          </Button>
+        </div>
       )}
     </div>
   );

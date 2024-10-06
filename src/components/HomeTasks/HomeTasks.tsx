@@ -5,20 +5,20 @@ import { Button, Card } from "flowbite-react";
 import { FC, useState } from "react";
 import { BiEdit } from "react-icons/bi";
 import { useRouter } from "next/navigation";
-import { AffirmationForm } from "./components/AffirmationForm";
+import { HomeTaskForm } from "./components/HomeTaskForm";
 
-interface AffirmationsProps {
-  affirmations: PrismaTypes.Affirmation[];
+interface HomeTasksProps {
+  tasks: PrismaTypes.Hometask[];
 }
 
-export const Affirmations: FC<AffirmationsProps> = ({ affirmations }) => {
+export const HomeTasks: FC<HomeTasksProps> = ({ tasks }) => {
   const [mode, setMode] = useState<"view" | "edit">("view");
   const { refresh } = useRouter();
 
   return (
     <div>
       <div className="mt-10 flex items-center justify-between gap-6">
-        <h1 className="text-4xl font-bold">Внушения</h1>
+        <h1 className="text-4xl font-bold">Домашка</h1>
         <Button
           gradientDuoTone="redToYellow"
           outline
@@ -29,21 +29,20 @@ export const Affirmations: FC<AffirmationsProps> = ({ affirmations }) => {
       </div>
       {mode === "edit" && (
         <Card className="mt-10">
-          <AffirmationForm onAfterUpdate={refresh} />
+          <HomeTaskForm onAfterUpdate={refresh} />
         </Card>
       )}
       <div className="mt-10 flex flex-col gap-4">
         {mode === "view"
-          ? affirmations
-              .filter((item) => item.visible)
-              .map((item) => (
-                <Card key={item.id}>
-                  <div className="overflow-hidden text-ellipsis">{item.text}</div>
-                </Card>
-              ))
-          : affirmations.map((item) => (
+          ? tasks.map((item) => (
               <Card key={item.id}>
-                <AffirmationForm affirmation={item} onAfterUpdate={refresh} />
+                <div className="flex justify-end font-medium">{item.date.toLocaleDateString("ru-RU")}</div>
+                <div className="overflow-hidden text-ellipsis">{item.text}</div>
+              </Card>
+            ))
+          : tasks.map((item) => (
+              <Card key={item.id}>
+                <HomeTaskForm task={item} onAfterUpdate={refresh} />
               </Card>
             ))}
       </div>

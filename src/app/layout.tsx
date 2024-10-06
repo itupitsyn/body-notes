@@ -18,7 +18,7 @@ export default function RootLayout({
       <head>
         <ThemeModeScript />
       </head>
-      <body>
+      <body className="text-gray-900 dark:bg-gray-800 dark:text-white">
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
