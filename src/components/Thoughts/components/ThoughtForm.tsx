@@ -1,19 +1,19 @@
 "use client";
 
-import { DEFAULT_LOCALE } from "@/api/constants";
-import { addHomeTask, deleteHomeTask, updateHomeTask } from "@/api/methods";
+import { addThought, deleteThought, updateThought } from "@/api/methods";
+import { DateTimePicker } from "@/components/DateTimePicker";
 import { ToastState, useToaster } from "@/contexts/Toaster";
 import { PrismaTypes } from "@/types/prisma";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Datepicker, Textarea } from "flowbite-react";
+import { Button, Textarea } from "flowbite-react";
 import { FC, useCallback, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { BiTrash } from "react-icons/bi";
 
 import * as yup from "yup";
 
-interface HomeTaskFormProps {
-  task?: PrismaTypes.Hometask;
+interface ThoughtFormProps {
+  thought?: PrismaTypes.Thought;
   onAfterUpdate: () => void;
 }
 
@@ -27,7 +27,7 @@ const schema = yup.object().shape({
   date: yup.date().nullable().required(),
 });
 
-export const HomeTaskForm: FC<HomeTaskFormProps> = ({ task, onAfterUpdate }) => {
+export const ThoughtForm: FC<ThoughtFormProps> = ({ thought, onAfterUpdate }) => {
   const { addToast } = useToaster();
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -38,8 +38,8 @@ export const HomeTaskForm: FC<HomeTaskFormProps> = ({ task, onAfterUpdate }) => 
     reset,
   } = useForm<FormDataType>({
     defaultValues: {
-      text: task?.text || "",
-      date: task?.date || new Date(),
+      text: thought?.text || "",
+      date: thought?.date || new Date(),
     },
     resolver: yupResolver(schema),
   });
@@ -47,10 +47,10 @@ export const HomeTaskForm: FC<HomeTaskFormProps> = ({ task, onAfterUpdate }) => 
   const submitHandler: SubmitHandler<FormDataType> = useCallback(
     async (formData) => {
       try {
-        if (task) {
-          await updateHomeTask(task.id, formData);
+        if (thought) {
+          await updateThought(thought.id, formData);
         } else {
-          await addHomeTask(formData);
+          await addThought(formData);
           reset();
         }
         addToast("Изменения сохранены", ToastState.Success);
@@ -59,14 +59,14 @@ export const HomeTaskForm: FC<HomeTaskFormProps> = ({ task, onAfterUpdate }) => 
         addToast("Неизвестная ошибка", ToastState.Error);
       }
     },
-    [addToast, task, onAfterUpdate, reset],
+    [addToast, thought, onAfterUpdate, reset],
   );
 
   const deleteHandler = useCallback(async () => {
-    if (!task) return;
+    if (!thought) return;
     try {
       setIsProcessing(true);
-      await deleteHomeTask(task.id);
+      await deleteThought(thought.id);
       addToast("Изменения сохранены", ToastState.Success);
       onAfterUpdate();
     } catch {
@@ -74,12 +74,12 @@ export const HomeTaskForm: FC<HomeTaskFormProps> = ({ task, onAfterUpdate }) => 
     } finally {
       setIsProcessing(false);
     }
-  }, [addToast, task, onAfterUpdate]);
+  }, [addToast, thought, onAfterUpdate]);
 
   return (
     <form noValidate onSubmit={handleSubmit(submitHandler)} className="flex flex-col gap-4">
-      {!task && <h2 className="font-medium">Новая домашка</h2>}
-      {task && (
+      {!thought && <h2 className="font-medium">Новая запись</h2>}
+      {thought && (
         <div className="flex gap-4 self-end">
           <Button
             type="button"
@@ -95,22 +95,7 @@ export const HomeTaskForm: FC<HomeTaskFormProps> = ({ task, onAfterUpdate }) => 
       )}
 
       <div className="flex flex-col items-start gap-1">
-        <Controller
-          control={control}
-          name="date"
-          render={({ field }) => (
-            <Datepicker
-              labelTodayButton="Сегодня"
-              labelClearButton="Сбросить"
-              language={DEFAULT_LOCALE}
-              weekStart={1}
-              onSelectedDateChanged={field.onChange}
-              onBlur={field.onBlur}
-              value={field.value.toLocaleDateString(DEFAULT_LOCALE)}
-              defaultDate={field.value}
-            />
-          )}
-        />
+        <Controller control={control} name="date" render={({ field }) => <DateTimePicker {...field} />} />
         {errors.date?.message && <div className="text-sm text-red-600">{errors.date.message}</div>}
       </div>
 
@@ -120,7 +105,7 @@ export const HomeTaskForm: FC<HomeTaskFormProps> = ({ task, onAfterUpdate }) => 
       </div>
 
       <Button type="submit" disabled={isSubmitting} gradientDuoTone="redToYellow" outline className="self-end">
-        {task ? "Сохранить" : "Добавить"}
+        {thought ? "Сохранить" : "Добавить"}
       </Button>
     </form>
   );

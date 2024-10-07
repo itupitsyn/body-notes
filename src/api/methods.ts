@@ -42,3 +42,43 @@ export const updateHomeTask = async (id: string, params: { text: string; date: D
 export const deleteHomeTask = async (id: string) => {
   return await axios.delete(`/api/home-tasks/${id}`);
 };
+
+/// THOUGHTS
+
+export const addThought = async (params: { text: string; date: Date }) => {
+  return await axios.post<PrismaTypes.Affirmation>("/api/thoughts", {
+    ...params,
+    date: getTransformedDate(params.date),
+  });
+};
+
+export const updateThought = async (id: string, params: { text: string; date: Date }) => {
+  return await axios.patch<PrismaTypes.Affirmation>(`/api/thoughts/${id}`, {
+    ...params,
+    date: getTransformedDate(params.date),
+  });
+};
+
+export const deleteThought = async (id: string) => {
+  return await axios.delete(`/api/thoughts/${id}`);
+};
+
+/// FEELINGS
+
+export const addFeeling = async (params: { text: string; date: Date }) => {
+  return await axios.post<PrismaTypes.Affirmation>("/api/feelings", {
+    ...params,
+    date: getTransformedDate(params.date),
+  });
+};
+
+export const updateFeeling = async (id: string, params: { text: string; date: Date }) => {
+  return await axios.patch<PrismaTypes.Affirmation>(`/api/feelings/${id}`, {
+    ...params,
+    date: getTransformedDate(params.date),
+  });
+};
+
+export const deleteFeeling = async (id: string) => {
+  return await axios.delete(`/api/feelings/${id}`);
+};

@@ -33,24 +33,31 @@ export const Navigation: FC = () => {
             )}
             <div className="font-medium">{data.user?.name}</div>
           </div>
-          <Button.Group>
-            <Button gradientDuoTone="redToYellow" outline={path !== "/feelings"} onClick={() => push("/feelings")}>
-              Чувства
-            </Button>
-            <Button gradientDuoTone="redToYellow" outline={path !== "/thoughts"} onClick={() => push("/thoughts")}>
-              Мысли
-            </Button>
-            <Button
-              gradientDuoTone="redToYellow"
-              outline={path !== "/affirmations"}
-              onClick={() => push("/affirmations")}
-            >
-              Внушения
-            </Button>
-            <Button gradientDuoTone="redToYellow" outline={path !== "/home-tasks"} onClick={() => push("/home-tasks")}>
-              Домашка
-            </Button>
-          </Button.Group>
+          <div className="flex items-center gap-4">
+            <DarkThemeToggle />
+            <Button.Group>
+              <Button gradientDuoTone="redToYellow" outline={path !== "/feelings"} onClick={() => push("/feelings")}>
+                Чувства
+              </Button>
+              <Button gradientDuoTone="redToYellow" outline={path !== "/thoughts"} onClick={() => push("/thoughts")}>
+                Мысли
+              </Button>
+              <Button
+                gradientDuoTone="redToYellow"
+                outline={path !== "/affirmations"}
+                onClick={() => push("/affirmations")}
+              >
+                Внушения
+              </Button>
+              <Button
+                gradientDuoTone="redToYellow"
+                outline={path !== "/home-tasks"}
+                onClick={() => push("/home-tasks")}
+              >
+                Домашка
+              </Button>
+            </Button.Group>
+          </div>
         </>
       )}
 
