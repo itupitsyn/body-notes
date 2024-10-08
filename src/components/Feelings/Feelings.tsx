@@ -19,7 +19,7 @@ export const Feelings: FC<FeelingsProps> = ({ feelings }) => {
   return (
     <div>
       <div className="mt-10 flex items-center justify-between gap-6">
-        <h1 className="text-4xl font-bold">Мысли</h1>
+        <h1 className="text-4xl font-bold">Эмоции</h1>
         <Button
           gradientDuoTone="redToYellow"
           outline
