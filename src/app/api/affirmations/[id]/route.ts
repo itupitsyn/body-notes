@@ -1,6 +1,6 @@
 import { prisma } from "@/prisma";
+import { auth } from "@/utils/auth";
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "../../auth/[...nextauth]/route";
 
 type RouteParams = {
   params: { id: string };

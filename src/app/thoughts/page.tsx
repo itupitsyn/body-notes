@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
-import { auth } from "../api/auth/[...nextauth]/route";
 import { prisma } from "@/prisma";
 import { Thoughts } from "@/components/Thoughts/Thoughts";
+import { auth } from "@/utils/auth";
 
 const Page = async () => {
   const session = await auth();
