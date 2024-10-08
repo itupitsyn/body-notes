@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { Affirmations } from "@/components/Affirmations1/Affirmations";
+import { Affirmations } from "@/components/Affirmations/Affirmations";
 import { prisma } from "@/prisma";
 import { auth } from "@/utils/auth";
 
