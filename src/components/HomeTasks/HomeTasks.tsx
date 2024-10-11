@@ -38,7 +38,7 @@ export const HomeTasks: FC<HomeTasksProps> = ({ tasks }) => {
           ? tasks.map((item) => (
               <Card key={item.id}>
                 <div className="flex justify-end font-medium">{item.date.toLocaleDateString(DEFAULT_LOCALE)}</div>
-                <div className="overflow-hidden text-ellipsis">{item.text}</div>
+                <div className="overflow-hidden text-ellipsis whitespace-pre-wrap">{item.text}</div>
               </Card>
             ))
           : tasks.map((item) => (

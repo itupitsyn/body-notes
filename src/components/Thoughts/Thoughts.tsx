@@ -47,7 +47,7 @@ export const Thoughts: FC<ThoughtsProps> = ({ thoughts }) => {
                     minute: "2-digit",
                   })}
                 </div>
-                <div className="overflow-hidden text-ellipsis">{item.text}</div>
+                <div className="overflow-hidden text-ellipsis whitespace-pre-wrap">{item.text}</div>
               </Card>
             ))
           : thoughts.map((item) => (

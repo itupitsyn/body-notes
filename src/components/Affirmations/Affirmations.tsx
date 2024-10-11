@@ -38,7 +38,7 @@ export const Affirmations: FC<AffirmationsProps> = ({ affirmations }) => {
               .filter((item) => item.visible)
               .map((item) => (
                 <Card key={item.id}>
-                  <div className="overflow-hidden text-ellipsis">{item.text}</div>
+                  <div className="overflow-hidden text-ellipsis whitespace-pre-wrap">{item.text}</div>
                 </Card>
               ))
           : affirmations.map((item) => (
