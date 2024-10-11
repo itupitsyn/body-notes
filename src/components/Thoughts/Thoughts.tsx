@@ -17,7 +17,7 @@ export const Thoughts: FC<ThoughtsProps> = ({ thoughts }) => {
   const { refresh } = useRouter();
 
   return (
-    <div>
+    <>
       <div className="mt-10 flex items-center justify-between gap-6">
         <h1 className="text-4xl font-bold">Мысли</h1>
         <Button
@@ -56,6 +56,6 @@ export const Thoughts: FC<ThoughtsProps> = ({ thoughts }) => {
               </Card>
             ))}
       </div>
-    </div>
+    </>
   );
 };

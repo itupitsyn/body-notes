@@ -14,6 +14,14 @@ const config: Config = {
     container: {
       center: true,
     },
+    extend: {
+      container: {
+        padding: {
+          DEFAULT: "0.5rem",
+          sm: "0",
+        },
+      },
+    },
   },
 };
 export default config;

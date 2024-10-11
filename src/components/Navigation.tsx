@@ -1,7 +1,7 @@
 "use client";
 
 import cn from "classnames";
-import { Button, DarkThemeToggle } from "flowbite-react";
+import { Button, DarkThemeToggle, Dropdown, DropdownItem } from "flowbite-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
@@ -21,31 +21,50 @@ export const Navigation: FC = () => {
     >
       {status === "authenticated" && (
         <>
-          <div className="flex items-center gap-4">
-            {data.user?.image && (
-              <Image
-                src={data.user.image}
-                alt="userImage"
-                width={92}
-                height={92}
-                className="size-11 flex-none rounded-full object-cover"
-              />
+          <Dropdown
+            label=""
+            renderTrigger={() => (
+              <div className="flex cursor-pointer items-center gap-4 transition-opacity hover:opacity-80">
+                {data.user?.image && (
+                  <Image
+                    src={data.user.image}
+                    alt="userImage"
+                    width={92}
+                    height={92}
+                    className="size-11 flex-none rounded-full object-cover"
+                  />
+                )}
+                <div className="font-medium">{data.user?.name}</div>
+              </div>
             )}
-            <div className="font-medium">{data.user?.name}</div>
-          </div>
+          >
+            <DropdownItem onClick={() => push("/api/auth/signout")}>Выйти</DropdownItem>
+          </Dropdown>
+          <DarkThemeToggle className="sm:hidden" />
           <div className="flex items-center gap-4">
-            <DarkThemeToggle />
+            <DarkThemeToggle className="hidden sm:block" />
             <Button.Group>
-              <Button gradientDuoTone="redToYellow" outline={path !== "/feelings"} onClick={() => push("/feelings")}>
-                Чувства
+              <Button
+                gradientDuoTone="redToYellow"
+                outline={path !== "/feelings"}
+                onClick={() => push("/feelings")}
+                size="sm"
+              >
+                Эмоции
               </Button>
-              <Button gradientDuoTone="redToYellow" outline={path !== "/thoughts"} onClick={() => push("/thoughts")}>
+              <Button
+                gradientDuoTone="redToYellow"
+                outline={path !== "/thoughts"}
+                onClick={() => push("/thoughts")}
+                size="sm"
+              >
                 Мысли
               </Button>
               <Button
                 gradientDuoTone="redToYellow"
                 outline={path !== "/affirmations"}
                 onClick={() => push("/affirmations")}
+                size="sm"
               >
                 Внушения
               </Button>
@@ -53,6 +72,7 @@ export const Navigation: FC = () => {
                 gradientDuoTone="redToYellow"
                 outline={path !== "/home-tasks"}
                 onClick={() => push("/home-tasks")}
+                size="sm"
               >
                 Домашка
               </Button>

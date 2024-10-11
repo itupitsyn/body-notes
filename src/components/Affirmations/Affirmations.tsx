@@ -16,7 +16,7 @@ export const Affirmations: FC<AffirmationsProps> = ({ affirmations }) => {
   const { refresh } = useRouter();
 
   return (
-    <div>
+    <>
       <div className="mt-10 flex items-center justify-between gap-6">
         <h1 className="text-4xl font-bold">Внушения</h1>
         <Button
@@ -47,6 +47,6 @@ export const Affirmations: FC<AffirmationsProps> = ({ affirmations }) => {
               </Card>
             ))}
       </div>
-    </div>
+    </>
   );
 };

@@ -17,7 +17,7 @@ export const Feelings: FC<FeelingsProps> = ({ feelings }) => {
   const { refresh } = useRouter();
 
   return (
-    <div>
+    <>
       <div className="mt-10 flex items-center justify-between gap-6">
         <h1 className="text-4xl font-bold">Эмоции</h1>
         <Button
@@ -56,6 +56,6 @@ export const Feelings: FC<FeelingsProps> = ({ feelings }) => {
               </Card>
             ))}
       </div>
-    </div>
+    </>
   );
 };

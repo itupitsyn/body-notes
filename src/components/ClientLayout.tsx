@@ -10,7 +10,7 @@ export const ClientLayout: FC<PropsWithChildren> = ({ children }) => {
     <SessionProvider>
       <ToastProvider>
         <div className="container flex min-h-svh flex-col justify-between">
-          {children}
+          <div>{children}</div>
           <Navigation />
         </div>
       </ToastProvider>
