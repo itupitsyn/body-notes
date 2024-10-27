@@ -15,7 +15,6 @@ WORKDIR /body-notes
 ENV NODE_ENV production
 
 COPY --from=builder /body-notes/.next/standalone .
-COPY --from=builder /body-notes/public ./public
 COPY --from=builder /body-notes/.next/static ./.next/static
 
 EXPOSE 3000
