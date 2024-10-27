@@ -18,4 +18,4 @@ COPY --from=builder /body-notes/.next/standalone .
 COPY --from=builder /body-notes/.next/static ./.next/static
 
 EXPOSE 3000
-CMD ["npm", "start"]
+CMD ["node", "server.js"]
