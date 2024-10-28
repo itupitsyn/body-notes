@@ -51,7 +51,7 @@ export const Navigation: FC = () => {
               </div>
               <div className="flex max-w-full items-center justify-end">
                 <div className="overflow-auto">
-                  <Button.Group>
+                  <Button.Group className="p-0.5">
                     <Button
                       gradientDuoTone="redToYellow"
                       outline={path !== "/feelings"}
