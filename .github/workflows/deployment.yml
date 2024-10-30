@@ -1,0 +1,19 @@
+name: Deploy to prod
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: 22
+          script: |
+            cd C:\body-notes & docker stop body-notes & docker rm body-notes & docker rmi body-notes & git pull & docker build . -t body-notes & docker run -p 3100:3000 -d -e DATABASE_URL=postgresql://body-notes:body-notes@host.docker.internal:5432/body-notes?schema=public -e GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} -e GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }} -e NEXTAUTH_URL=https://body-notes.super-shy.ru/ -e NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }} --name body-notes --restart always body-notes
