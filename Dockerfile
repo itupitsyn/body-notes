@@ -1,16 +1,16 @@
-FROM node:18 as dependencies
+FROM bitnami/node:18-debian-12 as dependencies
 WORKDIR /body-notes
 COPY package.json package-lock.json ./
 RUN npm ci
 
-FROM node:lts as builder
+FROM bitnami/node:18-debian-12 as builder
 WORKDIR /body-notes
 COPY . .
 COPY --from=dependencies /body-notes/node_modules ./node_modules
 RUN npx prisma generate
 RUN npm run build
 
-FROM node:lts as runner
+FROM bitnami/node:18-debian-12 as runner
 WORKDIR /body-notes
 ENV NODE_ENV production
 
