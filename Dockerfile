@@ -9,7 +9,7 @@ FROM $node_image as builder
 WORKDIR /body-notes
 COPY . .
 COPY --from=dependencies /body-notes/node_modules ./node_modules
-RUN npx prisma generate
+RUN bunx prisma generate
 RUN bun run build
 
 FROM $node_image as runner
