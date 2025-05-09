@@ -1,18 +1,13 @@
-ARG node_image=oven/bun:1
+ARG bun_image=oven/bun:alpine
 
-FROM $node_image AS dependencies
-WORKDIR /body-notes
-COPY package.json package-lock.json ./
-RUN bun i
-
-FROM $node_image AS builder
+FROM $bun_image AS builder
 WORKDIR /body-notes
 COPY . .
-COPY --from=dependencies /body-notes/node_modules ./node_modules
+RUN bun i --frozen-lockfile
 RUN bunx prisma generate
 RUN bun run build
 
-FROM $node_image AS runner
+FROM $bun_image AS runner
 WORKDIR /body-notes
 ENV NODE_ENV=production
 
