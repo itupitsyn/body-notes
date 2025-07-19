@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/prisma";
-import { auth } from "@/utils/auth";
+import { NextRequest, NextResponse } from 'next/server';
+import { prisma } from '@/prisma';
+import { auth } from '@/lib/utils/auth';
 
 export const POST = async (req: NextRequest) => {
   const session = await auth();
-  if (!session?.user.id) return new NextResponse("", { status: 404 });
+  if (!session?.user.id) return new NextResponse('', { status: 404 });
 
   const body = await req.json();
 

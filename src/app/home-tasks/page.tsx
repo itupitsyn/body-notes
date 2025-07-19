@@ -1,7 +1,7 @@
-import { notFound } from "next/navigation";
-import { HomeTasks } from "@/components/HomeTasks/HomeTasks";
-import { prisma } from "@/prisma";
-import { auth } from "@/utils/auth";
+import { notFound } from 'next/navigation';
+import { HomeTasks } from '@/components/HomeTasks/HomeTasks';
+import { prisma } from '@/prisma';
+import { auth } from '@/lib/utils/auth';
 
 const Page = async () => {
   const session = await auth();
@@ -10,7 +10,7 @@ const Page = async () => {
 
   const data = await prisma.hometask.findMany({
     where: { userId },
-    orderBy: { date: "desc" },
+    orderBy: { date: 'desc' },
   });
 
   return <HomeTasks tasks={data} />;

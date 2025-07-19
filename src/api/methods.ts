@@ -1,5 +1,5 @@
-import { PrismaTypes } from "@/types/prisma";
-import axios from "axios";
+import { PrismaTypes } from '@/types/prisma';
+import axios from 'axios';
 
 const getTransformedDate = (date: Date) => {
   return new Date(date.getTime());
@@ -8,7 +8,7 @@ const getTransformedDate = (date: Date) => {
 /// AFFIRMATIONS
 
 export const addAffirmation = async (text: string) => {
-  return await axios.post<PrismaTypes.Affirmation>("/api/affirmations", { text });
+  return await axios.post<PrismaTypes.Affirmation>('/api/affirmations', { text });
 };
 
 export const updateAffirmation = async (id: string, text: string) => {
@@ -26,7 +26,7 @@ export const deleteAffirmation = async (id: string) => {
 /// HOME TASKS
 
 export const addHomeTask = async (params: { text: string; date: Date }) => {
-  return await axios.post<PrismaTypes.Affirmation>("/api/home-tasks", {
+  return await axios.post<PrismaTypes.Affirmation>('/api/home-tasks', {
     ...params,
     date: getTransformedDate(params.date),
   });
@@ -46,7 +46,7 @@ export const deleteHomeTask = async (id: string) => {
 /// THOUGHTS
 
 export const addThought = async (params: { text: string; date: Date }) => {
-  return await axios.post<PrismaTypes.Affirmation>("/api/thoughts", {
+  return await axios.post<PrismaTypes.Affirmation>('/api/thoughts', {
     ...params,
     date: getTransformedDate(params.date),
   });
@@ -66,7 +66,7 @@ export const deleteThought = async (id: string) => {
 /// FEELINGS
 
 export const addFeeling = async (params: { text: string; date: Date }) => {
-  return await axios.post<PrismaTypes.Affirmation>("/api/feelings", {
+  return await axios.post<PrismaTypes.Affirmation>('/api/feelings', {
     ...params,
     date: getTransformedDate(params.date),
   });
