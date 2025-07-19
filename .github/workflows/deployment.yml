@@ -17,9 +17,9 @@ jobs:
           port: 51
           script: |
             cd apps/body-notes \
-            && docker stop body-notes \
-            && docker rm body-notes \
-            && docker rmi body-notes \
+            && docker stop body-notes || true \
+            && docker rm body-notes || true \
+            && docker rmi body-notes || true \
             && git pull \
             && docker build . -t body-notes \
             && docker run -p 3100:3000 -d \
