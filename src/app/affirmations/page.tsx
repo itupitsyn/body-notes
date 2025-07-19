@@ -6,6 +6,7 @@ import { auth } from '@/lib/utils/auth';
 const Page = async () => {
   const session = await auth();
   const userId = session?.user.id;
+
   if (!userId) return notFound();
 
   const data = await prisma.affirmation.findMany({

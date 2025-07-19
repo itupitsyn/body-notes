@@ -19,7 +19,7 @@ export const Navigation: FC = () => {
   const { status, data } = useSession();
 
   return (
-    <div className="fixed bottom-0 left-0 flex w-full flex-col">
+    <div className="bg-background fixed bottom-0 left-0 flex w-full flex-col">
       <div className="from-pink-500-200 h-[2px] bg-gradient-to-r from-pink-500 via-fuchsia-500 to-fuchsia-950" />
       <div className="container mx-auto px-2 sm:px-0">
         <div
@@ -56,7 +56,7 @@ export const Navigation: FC = () => {
                 </MenubarMenu>
               </Menubar>
 
-              <NavigationMenu className="max-w-full overflow-auto">
+              <NavigationMenu className="max-w-full justify-end overflow-auto">
                 <NavigationMenuList>
                   <NavigationMenuItem asChild>
                     <NavigationMenuLink asChild>
