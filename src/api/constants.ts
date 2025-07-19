@@ -1,1 +1,1 @@
-export const DEFAULT_LOCALE = "ru-RU";
+export const DEFAULT_LOCALE = 'ru-RU';

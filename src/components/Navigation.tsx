@@ -1,11 +1,17 @@
-"use client";
+'use client';
 
-import cn from "classnames";
-import { Button, DarkThemeToggle, Dropdown, DropdownItem, Spinner } from "flowbite-react";
-import { useSession } from "next-auth/react";
-import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
-import { FC } from "react";
+import cn from 'classnames';
+import { useSession } from 'next-auth/react';
+import Image from 'next/image';
+import { usePathname, useRouter } from 'next/navigation';
+import { FC } from 'react';
+import { Button } from './ui/button';
+import Link from 'next/link';
+import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from './ui/menubar';
+import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from './ui/navigation-menu';
+import dynamic from 'next/dynamic';
+
+const GridLoader = dynamic(() => import('react-spinners/GridLoader'), { ssr: false });
 
 export const Navigation: FC = () => {
   const { push } = useRouter();
@@ -13,93 +19,106 @@ export const Navigation: FC = () => {
   const { status, data } = useSession();
 
   return (
-    <div className="fixed bottom-0 left-0 flex w-full flex-col bg-white dark:bg-gray-800">
-      <div className="h-[2px] bg-gradient-to-r from-red-200 via-red-300 to-yellow-200" />
-      <div className="container py-1">
+    <div className="fixed bottom-0 left-0 flex w-full flex-col">
+      <div className="from-pink-500-200 h-[2px] bg-gradient-to-r from-pink-500 via-fuchsia-500 to-fuchsia-950" />
+      <div className="container mx-auto px-2 sm:px-0">
         <div
-          className={cn("flex flex-col gap-2 sm:flex-row", "overflow-hidden", {
-            "items-end justify-end": status === "unauthenticated",
-            "items-center justify-center": status === "loading",
+          className={cn('flex flex-col flex-wrap gap-2 sm:flex-row', 'overflow-hidden py-2', {
+            'items-end justify-end': status === 'unauthenticated',
+            'items-center justify-center': status === 'loading',
+            'items-start justify-between': status === 'authenticated',
           })}
         >
-          {status === "authenticated" && (
+          {status === 'authenticated' && (
             <>
-              <div className="flex grow items-center justify-between overflow-hidden py-2 pr-2 [&>div]:!min-w-0">
-                <Dropdown
-                  label=""
-                  placement="top-start"
-                  renderTrigger={() => (
-                    <div className="flex cursor-pointer items-center gap-4 overflow-hidden transition-opacity hover:opacity-80">
+              <Menubar className="max-w-full overflow-hidden">
+                <MenubarMenu>
+                  <MenubarTrigger className="overflow-hidden">
+                    <div className="flex cursor-pointer items-center gap-2 overflow-hidden transition-opacity hover:opacity-80">
                       {data.user?.image && (
                         <Image
                           src={data.user.image}
                           alt="userImage"
-                          width={92}
-                          height={92}
-                          className="size-11 flex-none rounded-full object-cover"
+                          width={72}
+                          height={72}
+                          className="size-6 flex-none rounded-full object-cover"
                         />
                       )}
                       <div className="truncate font-medium">{data.user?.name}</div>
                     </div>
-                  )}
-                >
-                  <DropdownItem className="max-w-28" onClick={() => push("/api/auth/signout")}>
-                    Выйти
-                  </DropdownItem>
-                </Dropdown>
-                <DarkThemeToggle />
-              </div>
-              <div className="flex max-w-full items-center justify-end">
-                <div className="overflow-auto">
-                  <Button.Group className="p-0.5">
-                    <Button
-                      gradientDuoTone="redToYellow"
-                      outline={path !== "/feelings"}
-                      onClick={() => push("/feelings")}
-                      size="sm"
-                    >
-                      Эмоции
-                    </Button>
-                    <Button
-                      gradientDuoTone="redToYellow"
-                      outline={path !== "/thoughts"}
-                      onClick={() => push("/thoughts")}
-                      size="sm"
-                    >
-                      Мысли
-                    </Button>
-                    <Button
-                      gradientDuoTone="redToYellow"
-                      outline={path !== "/affirmations"}
-                      onClick={() => push("/affirmations")}
-                      size="sm"
-                    >
-                      Внушения
-                    </Button>
-                    <Button
-                      gradientDuoTone="redToYellow"
-                      outline={path !== "/home-tasks"}
-                      onClick={() => push("/home-tasks")}
-                      size="sm"
-                    >
-                      Домашка
-                    </Button>
-                  </Button.Group>
-                </div>
-              </div>
+                  </MenubarTrigger>
+
+                  <MenubarContent>
+                    <MenubarItem asChild>
+                      <Link href="/api/auth/signout">Выйти</Link>
+                    </MenubarItem>
+                  </MenubarContent>
+                </MenubarMenu>
+              </Menubar>
+
+              <NavigationMenu className="max-w-full overflow-auto">
+                <NavigationMenuList>
+                  <NavigationMenuItem asChild>
+                    <NavigationMenuLink asChild>
+                      <Link
+                        href="/feelings"
+                        className={cn('min-w-24 text-center', path === '/feelings' && 'font-medium')}
+                      >
+                        Эмоции
+                      </Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+
+                  <NavigationMenuItem asChild>
+                    <NavigationMenuLink asChild>
+                      <Link
+                        href="/thoughts"
+                        className={cn('min-w-24 text-center', path === '/thoughts' && 'font-medium')}
+                      >
+                        Мысли
+                      </Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+
+                  <NavigationMenuItem asChild>
+                    <NavigationMenuLink asChild>
+                      <Link
+                        href="/affirmations"
+                        className={cn('min-w-24 text-center', path === '/affirmations' && 'font-medium')}
+                      >
+                        Внушения
+                      </Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+
+                  <NavigationMenuItem asChild>
+                    <NavigationMenuLink asChild>
+                      <Link
+                        href="/home-tasks"
+                        className={cn('min-w-24 text-center', path === '/home-tasks' && 'font-medium')}
+                      >
+                        Домашка
+                      </Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
             </>
           )}
 
-          {status === "unauthenticated" && (
+          {status === 'unauthenticated' && (
             <div className="flex items-center gap-4">
-              <DarkThemeToggle />
-              <Button gradientDuoTone="redToYellow" outline onClick={() => push("/api/auth/signin")}>
+              <Button variant="outline" onClick={() => push('/api/auth/signin')}>
                 Войти
               </Button>
             </div>
           )}
 
-          {status === "loading" && <Spinner color="pink" size="xl" />}
+          {status === 'loading' && (
+            <div className="flex h-9 items-center">
+              <GridLoader color="gray" className="self-center" size={5} loading />
+            </div>
+          )}
         </div>
       </div>
     </div>

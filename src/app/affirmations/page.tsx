@@ -1,7 +1,7 @@
-import { notFound } from "next/navigation";
-import { Affirmations } from "@/components/Affirmations/Affirmations";
-import { prisma } from "@/prisma";
-import { auth } from "@/utils/auth";
+import { notFound } from 'next/navigation';
+import { Affirmations } from '@/components/Affirmations/Affirmations';
+import { prisma } from '@/prisma';
+import { auth } from '@/lib/utils/auth';
 
 const Page = async () => {
   const session = await auth();
@@ -10,7 +10,7 @@ const Page = async () => {
 
   const data = await prisma.affirmation.findMany({
     where: { userId },
-    orderBy: { id: "asc" },
+    orderBy: { id: 'asc' },
   });
 
   return <Affirmations affirmations={data} />;

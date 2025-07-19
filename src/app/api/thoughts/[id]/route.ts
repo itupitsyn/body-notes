@@ -1,20 +1,22 @@
-import { prisma } from "@/prisma";
-import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/utils/auth";
+import { prisma } from '@/prisma';
+import { NextRequest, NextResponse } from 'next/server';
+import { auth } from '@/lib/utils/auth';
 
 type RouteParams = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
 export const PATCH = async (req: NextRequest, { params }: RouteParams) => {
-  const [data, session] = await Promise.all([prisma.thought.findFirst({ where: { id: params.id } }), auth()]);
+  const { id } = await params;
 
-  if (!data || data.userId !== session?.user.id) return new NextResponse("", { status: 404 });
+  const [data, session] = await Promise.all([prisma.thought.findFirst({ where: { id } }), auth()]);
+
+  if (!data || data.userId !== session?.user.id) return new NextResponse('', { status: 404 });
 
   const body = await req.json();
 
   const updated = await prisma.thought.update({
-    where: { id: params.id },
+    where: { id },
     data: { text: body.text, date: body.date },
   });
 
@@ -22,11 +24,13 @@ export const PATCH = async (req: NextRequest, { params }: RouteParams) => {
 };
 
 export const DELETE = async (req: NextRequest, { params }: RouteParams) => {
-  const [data, session] = await Promise.all([prisma.thought.findFirst({ where: { id: params.id } }), auth()]);
+  const { id } = await params;
 
-  if (!data || data.userId !== session?.user.id) return new NextResponse("", { status: 404 });
+  const [data, session] = await Promise.all([prisma.thought.findFirst({ where: { id } }), auth()]);
 
-  await prisma.thought.delete({ where: { id: params.id } });
+  if (!data || data.userId !== session?.user.id) return new NextResponse('', { status: 404 });
+
+  await prisma.thought.delete({ where: { id } });
 
   return new NextResponse();
 };

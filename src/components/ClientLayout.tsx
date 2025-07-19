@@ -1,19 +1,16 @@
-"use client";
+'use client';
 
-import { SessionProvider } from "next-auth/react";
-import { FC, PropsWithChildren } from "react";
-import { Navigation } from "./Navigation";
-import { ToastProvider } from "@/contexts/Toaster";
+import { SessionProvider } from 'next-auth/react';
+import { FC, PropsWithChildren } from 'react';
+import { Navigation } from './Navigation';
 
 export const ClientLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <SessionProvider>
-      <ToastProvider>
-        <div className="container min-w-80 pb-36 sm:pb-24">
-          {children}
-          <Navigation />
-        </div>
-      </ToastProvider>
+      <div className="container mx-auto min-w-80 pb-36 sm:pb-24">
+        {children}
+        <Navigation />
+      </div>
     </SessionProvider>
   );
 };

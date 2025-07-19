@@ -1,16 +1,17 @@
-"use client";
+'use client';
 
-import { addFeeling, deleteFeeling, updateFeeling } from "@/api/methods";
-import { DateTimePicker } from "@/components/DateTimePicker";
-import { ToastState, useToaster } from "@/contexts/Toaster";
-import { PrismaTypes } from "@/types/prisma";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Textarea } from "flowbite-react";
-import { FC, useCallback, useState } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { BiTrash } from "react-icons/bi";
+import { addFeeling, deleteFeeling, updateFeeling } from '@/api/methods';
+import { Button } from '@/components/ui/button';
+import { DateTimePicker24h } from '@/components/ui/datetimepicker24h';
+import { Textarea } from '@/components/ui/textarea';
+import { PrismaTypes } from '@/types/prisma';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { FC, useCallback, useState } from 'react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { BiTrash } from 'react-icons/bi';
+import { toast } from 'sonner';
 
-import * as yup from "yup";
+import { z } from 'zod';
 
 interface FeelingFormProps {
   feeling?: PrismaTypes.Feeling;
@@ -22,13 +23,12 @@ type FormDataType = {
   date: Date;
 };
 
-const schema = yup.object().shape({
-  text: yup.string().nullable().required().max(4096),
-  date: yup.date().nullable().required(),
+const schema = z.object({
+  text: z.string().trim().max(4096, 'Максимальная длина 4096'),
+  date: z.date(),
 });
 
 export const FeelingForm: FC<FeelingFormProps> = ({ feeling, onAfterUpdate }) => {
-  const { addToast } = useToaster();
   const [isProcessing, setIsProcessing] = useState(false);
 
   const {
@@ -38,10 +38,10 @@ export const FeelingForm: FC<FeelingFormProps> = ({ feeling, onAfterUpdate }) =>
     reset,
   } = useForm<FormDataType>({
     defaultValues: {
-      text: feeling?.text || "",
+      text: feeling?.text || '',
       date: feeling?.date || new Date(),
     },
-    resolver: yupResolver(schema),
+    resolver: zodResolver(schema),
   });
 
   const submitHandler: SubmitHandler<FormDataType> = useCallback(
@@ -53,13 +53,13 @@ export const FeelingForm: FC<FeelingFormProps> = ({ feeling, onAfterUpdate }) =>
           await addFeeling(formData);
           reset();
         }
-        addToast("Изменения сохранены", ToastState.Success);
+        toast.success('Изменения сохранены');
         onAfterUpdate();
       } catch {
-        addToast("Неизвестная ошибка", ToastState.Error);
+        toast.error('Неизвестная ошибка');
       }
     },
-    [addToast, feeling, onAfterUpdate, reset],
+    [feeling, onAfterUpdate, reset],
   );
 
   const deleteHandler = useCallback(async () => {
@@ -67,35 +67,28 @@ export const FeelingForm: FC<FeelingFormProps> = ({ feeling, onAfterUpdate }) =>
     try {
       setIsProcessing(true);
       await deleteFeeling(feeling.id);
-      addToast("Изменения сохранены", ToastState.Success);
+      toast.success('Изменения сохранены');
       onAfterUpdate();
     } catch {
-      addToast("Неизвестная ошибка", ToastState.Error);
+      toast.error('Неизвестная ошибка');
     } finally {
       setIsProcessing(false);
     }
-  }, [addToast, feeling, onAfterUpdate]);
+  }, [feeling, onAfterUpdate]);
 
   return (
     <form noValidate onSubmit={handleSubmit(submitHandler)} className="flex flex-col gap-4">
       {!feeling && <h2 className="font-medium">Новая запись</h2>}
       {feeling && (
         <div className="flex gap-4 self-end">
-          <Button
-            type="button"
-            disabled={isProcessing}
-            gradientDuoTone="redToYellow"
-            outline
-            size="sm"
-            onClick={deleteHandler}
-          >
+          <Button type="button" disabled={isProcessing} size="sm" onClick={deleteHandler}>
             <BiTrash />
           </Button>
         </div>
       )}
 
       <div className="flex flex-col items-start gap-1">
-        <Controller control={control} name="date" render={({ field }) => <DateTimePicker {...field} />} />
+        <Controller control={control} name="date" render={({ field }) => <DateTimePicker24h {...field} />} />
         {errors.date?.message && <div className="text-sm text-red-600">{errors.date.message}</div>}
       </div>
 
@@ -104,8 +97,8 @@ export const FeelingForm: FC<FeelingFormProps> = ({ feeling, onAfterUpdate }) =>
         {errors.text?.message && <div className="mt-1 text-sm text-red-600">{errors.text.message}</div>}
       </div>
 
-      <Button type="submit" disabled={isSubmitting} gradientDuoTone="redToYellow" outline className="self-end">
-        {feeling ? "Сохранить" : "Добавить"}
+      <Button type="submit" disabled={isSubmitting} className="self-end">
+        {feeling ? 'Сохранить' : 'Добавить'}
       </Button>
     </form>
   );
