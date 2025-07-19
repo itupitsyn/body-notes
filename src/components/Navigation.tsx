@@ -3,7 +3,6 @@
 import cn from 'classnames';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-// import { GridLoader } from 'react-spinners';
 import { usePathname, useRouter } from 'next/navigation';
 import { FC } from 'react';
 import { Button } from './ui/button';
@@ -117,7 +116,7 @@ export const Navigation: FC = () => {
 
           {status === 'loading' && (
             <div className="flex h-9 items-center">
-              <GridLoader color="orange" className="self-center" size={5} loading />
+              <GridLoader color="gray" className="self-center" size={5} loading />
             </div>
           )}
         </div>
