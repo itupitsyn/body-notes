@@ -5,9 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { PrismaTypes } from '@/types/prisma';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Eye, EyeOff, Trash2 } from 'lucide-react';
 import { FC, useCallback, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { BiHide, BiShow, BiTrash } from 'react-icons/bi';
 import { toast } from 'sonner';
 
 import { z } from 'zod';
@@ -89,11 +89,11 @@ export const AffirmationForm: FC<AffirmationFormProps> = ({ affirmation, onAfter
       {!affirmation && <h2 className="font-medium">Новое внушение</h2>}
       {affirmation && (
         <div className="flex gap-4 self-end">
-          <Button type="button" disabled={isProcessing} size="sm" onClick={deleteHandler}>
-            <BiTrash />
+          <Button variant="destructive" type="button" disabled={isProcessing} size="sm" onClick={deleteHandler}>
+            <Trash2 />
           </Button>
-          <Button type="button" disabled={isProcessing} size="sm" onClick={changeVisibilityHandler}>
-            {affirmation.visible ? <BiHide /> : <BiShow />}
+          <Button variant="outline" type="button" disabled={isProcessing} size="sm" onClick={changeVisibilityHandler}>
+            {affirmation.visible ? <EyeOff /> : <Eye />}
           </Button>
         </div>
       )}
@@ -103,7 +103,7 @@ export const AffirmationForm: FC<AffirmationFormProps> = ({ affirmation, onAfter
         {errors.text?.message && <div className="mt-1 text-sm text-red-600">{errors.text.message}</div>}
       </div>
 
-      <Button type="submit" disabled={isSubmitting} className="self-end">
+      <Button variant="outline" type="submit" disabled={isSubmitting} className="self-end">
         {affirmation ? 'Сохранить' : 'Добавить'}
       </Button>
     </form>

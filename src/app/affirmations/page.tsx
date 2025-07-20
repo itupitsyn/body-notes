@@ -11,7 +11,7 @@ const Page = async () => {
 
   const data = await prisma.affirmation.findMany({
     where: { userId },
-    orderBy: { id: 'asc' },
+    orderBy: { order: 'asc' },
   });
 
   return <Affirmations affirmations={data} />;

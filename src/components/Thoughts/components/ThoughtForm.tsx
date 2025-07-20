@@ -6,9 +6,9 @@ import { DateTimePicker24h } from '@/components/ui/datetimepicker24h';
 import { Textarea } from '@/components/ui/textarea';
 import { PrismaTypes } from '@/types/prisma';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Trash2 } from 'lucide-react';
 import { FC, useCallback, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { BiTrash } from 'react-icons/bi';
 import { toast } from 'sonner';
 
 import { z } from 'zod';
@@ -81,8 +81,8 @@ export const ThoughtForm: FC<ThoughtFormProps> = ({ thought, onAfterUpdate }) =>
       {!thought && <h2 className="font-medium">Новая запись</h2>}
       {thought && (
         <div className="flex gap-4 self-end">
-          <Button type="button" disabled={isProcessing} size="sm" onClick={deleteHandler}>
-            <BiTrash />
+          <Button variant="destructive" type="button" disabled={isProcessing} size="sm" onClick={deleteHandler}>
+            <Trash2 />
           </Button>
         </div>
       )}
@@ -97,7 +97,7 @@ export const ThoughtForm: FC<ThoughtFormProps> = ({ thought, onAfterUpdate }) =>
         {errors.text?.message && <div className="mt-1 text-sm text-red-600">{errors.text.message}</div>}
       </div>
 
-      <Button type="submit" disabled={isSubmitting} className="self-end">
+      <Button variant="outline" type="submit" disabled={isSubmitting} className="self-end">
         {thought ? 'Сохранить' : 'Добавить'}
       </Button>
     </form>
