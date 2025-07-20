@@ -5,6 +5,7 @@ WORKDIR /body-notes
 COPY . .
 RUN bun i --frozen-lockfile
 RUN bunx prisma generate
+RUN bunx prisma migrate deploy
 RUN bun run build
 
 FROM $bun_image AS runner

@@ -2,12 +2,12 @@
 
 import { PrismaTypes } from '@/types/prisma';
 import { FC, useState } from 'react';
-import { BiEdit } from 'react-icons/bi';
 import { useRouter } from 'next/navigation';
 import { HomeTaskForm } from './components/HomeTaskForm';
 import { DEFAULT_LOCALE } from '@/api/constants';
 import { Button } from '../ui/button';
 import { Card } from '../ui/card';
+import { SquarePen } from 'lucide-react';
 
 interface HomeTasksProps {
   tasks: PrismaTypes.Hometask[];
@@ -22,7 +22,7 @@ export const HomeTasks: FC<HomeTasksProps> = ({ tasks }) => {
       <div className="mt-10 flex items-center justify-between gap-6 px-2 sm:px-0">
         <h1 className="text-4xl font-semibold">Домашка</h1>
         <Button variant="ghost" onClick={() => setMode((prev) => (prev === 'edit' ? 'view' : 'edit'))}>
-          <BiEdit className="size-6" />
+          <SquarePen className="size-6" />
         </Button>
       </div>
 

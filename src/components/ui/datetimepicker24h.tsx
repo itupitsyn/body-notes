@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import { CalendarIcon } from '@radix-ui/react-icons';
 import { format } from 'date-fns';
 
 import { cn } from '@/lib/utils';
@@ -10,6 +9,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { ru } from 'react-day-picker/locale';
+import { CalendarDays } from 'lucide-react';
 
 interface DatePicker24HProps {
   placeholder?: string;
@@ -48,7 +48,7 @@ export function DateTimePicker24h({ placeholder, value, onChange, onBlur }: Date
           className={cn('w-full justify-start text-left font-normal', !value && 'text-muted-foreground')}
           onBlur={onBlur}
         >
-          <CalendarIcon className="mr-2 h-4 w-4" />
+          <CalendarDays className="mr-2 h-4 w-4" />
           {value ? format(value, 'PPPppp', { locale: ru }) : <span>{placeholder ?? ''}</span>}
         </Button>
       </PopoverTrigger>

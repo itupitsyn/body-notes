@@ -2,12 +2,12 @@
 
 import { PrismaTypes } from '@/types/prisma';
 import { FC, useState } from 'react';
-import { BiEdit } from 'react-icons/bi';
 import { useRouter } from 'next/navigation';
 import { FeelingForm } from './components/FeelingsForm';
 import { DEFAULT_LOCALE } from '@/api/constants';
 import { Button } from '../ui/button';
 import { Card } from '../ui/card';
+import { SquarePen } from 'lucide-react';
 
 interface FeelingsProps {
   feelings: PrismaTypes.Thought[];
@@ -22,7 +22,7 @@ export const Feelings: FC<FeelingsProps> = ({ feelings }) => {
       <div className="mt-10 flex items-center justify-between gap-6 px-2 sm:px-0">
         <h1 className="text-4xl font-semibold">Эмоции</h1>
         <Button variant="ghost" onClick={() => setMode((prev) => (prev === 'edit' ? 'view' : 'edit'))}>
-          <BiEdit className="size-6" />
+          <SquarePen className="size-6" />
         </Button>
       </div>
 

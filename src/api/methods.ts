@@ -19,6 +19,13 @@ export const changeAffirmationVisibility = async (id: string) => {
   return await axios.patch<PrismaTypes.Affirmation>(`/api/affirmations/${id}/change-visibility`);
 };
 
+export const reorderAffirmations = async (id1: string, id2: string) => {
+  return await axios.post<PrismaTypes.Affirmation>(`/api/affirmations/reorder`, {
+    id1,
+    id2,
+  });
+};
+
 export const deleteAffirmation = async (id: string) => {
   return await axios.delete(`/api/affirmations/${id}`);
 };
