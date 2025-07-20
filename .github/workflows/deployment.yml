@@ -20,6 +20,7 @@ jobs:
             && docker stop body-notes || true \
             && docker rm body-notes || true \
             && docker rmi body-notes || true \
+            && git fetch \
             && git reset origin/master --hard \
             && docker build . -t body-notes \
             && docker run -p 3100:3000 -d \
