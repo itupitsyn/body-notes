@@ -14,7 +14,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-          port: 51
+          port: 52
           script: |
             cd apps/body-notes \
             && docker stop body-notes || true \
@@ -29,5 +29,6 @@ jobs:
               -e GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }} \
               -e NEXTAUTH_URL=https://body-notes.super-shy.ru/ \
               -e NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }} \
+              -e NEXT_SERVER_ACTIONS_ENCRYPTION_KEY=${{ secrets.NEXT_SERVER_ACTIONS_ENCRYPTION_KEY }} \
               --name body-notes \
               --restart always body-notes
