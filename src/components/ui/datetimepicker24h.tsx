@@ -12,6 +12,7 @@ import { ru } from 'react-day-picker/locale';
 import { CalendarDays } from 'lucide-react';
 
 interface DatePicker24HProps {
+  id?: string;
   placeholder?: string;
   value?: Date | null;
   onChange?: (value: Date | undefined | null) => void;
@@ -19,7 +20,7 @@ interface DatePicker24HProps {
 }
 const hours = Array.from({ length: 24 }, (_, i) => i);
 
-export function DateTimePicker24h({ placeholder, value, onChange, onBlur }: DatePicker24HProps) {
+export function DateTimePicker24h({ id, placeholder, value, onChange, onBlur }: DatePicker24HProps) {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const handleDateSelect = (selectedDate: Date | undefined) => {
@@ -54,8 +55,8 @@ export function DateTimePicker24h({ placeholder, value, onChange, onBlur }: Date
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
         <div className="sm:flex">
-          <Calendar mode="single" selected={value || undefined} onSelect={handleDateSelect} />
-          <div className="flex flex-col divide-y sm:h-[300px] sm:flex-row sm:divide-x sm:divide-y-0">
+          <Calendar id={id} mode="single" selected={value || undefined} onSelect={handleDateSelect} />
+          <div className="flex flex-col divide-y sm:h-75 sm:flex-row sm:divide-x sm:divide-y-0">
             <ScrollArea className="w-64 sm:w-auto">
               <div className="flex p-2 sm:flex-col">
                 {hours.reverse().map((hour) => (
